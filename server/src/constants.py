@@ -44,7 +44,7 @@ LEFT_CENTER = np.asarray((-0.2, 0.05))
 RIGHT_CENTER = np.asarray((0.3, 0.05))
 
 
-IP = '192.168.1.10'
+IP = '192.168.1.15'
 PORT = 3000
 API = 'api/rpi/data/'
 DATA_SIZE = 16
