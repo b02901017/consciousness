@@ -5,6 +5,7 @@ import requests
 import sys
 import json
 from i2c import *
+import json
 
 HOST = '0.0.0.0'
 PORT = 3000
@@ -16,7 +17,8 @@ flag = Value('i', 0)
 
 @app.route('/api/rpi/data/', methods=['POST'])
 def get_data():
-    req = request.json['data']
+    req = json.loads(request.data.decode('utf-8'))['data']
+    print(req)
     data[:] = req
     return jsonify(req)
 
@@ -26,8 +28,7 @@ def hello():
 
 def loop(flag, data):
     while True:
-        print(data[:])
-        # process_i2c(data[:])
+        transmit(data[:])
         time.sleep(1)
 
 if __name__ == "__main__":

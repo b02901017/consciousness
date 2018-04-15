@@ -60,9 +60,9 @@ def detect_eyesight(detector, face, gray_img):
     right_shift = process_eye(shape, gray_img, EYE_OFFSETS, 'right_eye') - RIGHT_CENTER
     shift =  left_shift + right_shift
     hor, ver  = shift
-    if (np.abs(hor) < 0.05):
+    if (np.abs(hor) < 0.1):
         hor = 0
-    if (np.abs(ver) < 0.05):
+    if (np.abs(ver) < 0.1):
         ver = 0
     return (np.sign(hor), np.sign(ver))
 

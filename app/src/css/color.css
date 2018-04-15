@@ -1,0 +1,40 @@
+.White{
+    background: #FFFFFF;
+}
+.Dark-Gray{
+    background: #606060;
+}
+.Gray{
+    background: #DDDDDD;
+}
+.Light-Gray{
+    background: #EDEDED;
+}
+.Red{
+    background: #DB2828;
+}
+.Orange{
+    background: #F2711c;
+}
+.Green{
+    background: #009844; 
+}
+.Teal{
+    background: #3AA6A7;  
+}
+.Light-Teal{
+    background: #5AC6C7;  
+}
+.Blue{
+    background: #2185D0;
+}
+.Yellow{
+    background: #fbbd08
+}
+.Aqua{
+    background: #EAF6F7;    
+}
+.Transparent {
+    background: transparent;
+    border: none;
+}

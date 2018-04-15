@@ -1,6 +1,6 @@
 #include <Wire.h>
 
-#define SLAVE_ADDRESS 0x06
+#define SLAVE_ADDRESS 0x04
 #define DATA_SIZE 8
 #define CMD 255
 
@@ -10,6 +10,7 @@ void receiveData(int byteCount){
     int i = 0;
     while(Wire.available()) {
         flag = Wire.read();
+          Serial.println(flag);
         if( i == DATA_SIZE) {
             i %= DATA_SIZE;
             output(data);
@@ -35,6 +36,7 @@ void output(byte *data) {
 }
 
 void setup(void) {
+    initPin();
     Serial.begin(9600);
     Wire.begin(SLAVE_ADDRESS);
     Wire.onReceive(receiveData);
