@@ -1,23 +1,26 @@
 #include <Wire.h>
 
-#define SLAVE_ADDRESS 0x04
+#define SLAVE_ADDRESS 0x06
 #define DATA_SIZE 8
 #define CMD 255
 
-byte data[DATA_SIZE];
-void receiveData(int byteCount){
+byte data[DATA_SIZE] = {0,0,0,0,0,0,0,0};
+void receiveData(){
     byte flag;
     int i = 0;
     while(Wire.available()) {
         flag = Wire.read();
-          Serial.println(flag);
-        if( i == DATA_SIZE) {
-            i %= DATA_SIZE;
-            output(data);
-        }
+        i %= DATA_SIZE;
         if (flag != CMD){
+            Serial.print(i);
+            Serial.print(",");
+            Serial.print(flag);
+            Serial.print(",");
             data[i] = flag;
             i ++;
+        } else {
+            output(data);
+            Serial.println("accept");
         }
 
     }

@@ -49,18 +49,19 @@ def main(face_dtr, shape_dtr, emotion_clf, gender_clf):
                 draw_bounding_box(face, rgb_img, color)
             except:
                 print('model dead')
-            # try :
-            data = encode(i, number, dis, hor, ver, g_idx, e_idx)
-            post_data(data)
+            print(counter)
+            try :
+               
                 # # subimit data to rpi
-                # if(counter % SUBMIT_FREQ == 0) :
-                #     data = encode(i, number, dis, hor, ver, g_idx, e_idx)
-                #     post_data(data)
-                #     i += 1
-                #     i %= DATA_SIZE
-                #     counter %= SUBMIT_FREQ
-            # except:
-                # print('streaming dead')
+                if(counter % SUBMIT_FREQ == 0) :
+                    data = encode(i, number, dis, hor, ver, g_idx, e_idx)
+                    print(data, counter)
+                    # post_data(data)
+                    i += 1
+                    i %= DATA_SIZE
+                    counter %= SUBMIT_FREQ
+            except:
+                print('streaming dead')
 
         bgr_img = cv2.cvtColor(rgb_img, cv2.COLOR_RGB2BGR)
         cv2.imshow('window_frame', bgr_img)
