@@ -1,0 +1,18 @@
+## pc
+
+# open web
+cd consciousness
+cd app
+npm start
+
+# open face
+cd consciousness
+cd server
+python3 src/main.py
+
+## rpi
+
+ssh pi@172.20.10.2
+cd consciousness
+cd rpi
+python3 src/main.py

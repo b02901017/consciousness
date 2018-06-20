@@ -50,7 +50,7 @@ def detect_peoples(faces):
 # distance
 def detect_distance(face, gray_img):
     _, _, face_w, face_h = face
-    w, h = gray_img.shape
+    h, w = gray_img.shape
     return np.round(np.sqrt((face_w * face_h) / (w * h)), 3)
 
 # eyesight
@@ -60,11 +60,28 @@ def detect_eyesight(detector, face, gray_img):
     right_shift = process_eye(shape, gray_img, EYE_OFFSETS, 'right_eye') - RIGHT_CENTER
     shift =  left_shift + right_shift
     hor, ver  = shift
-    if (np.abs(hor) < 0.1):
+    if (np.abs(hor) < EYEX_THRESHOLD):
         hor = 0
-    if (np.abs(ver) < 0.1):
+    if (np.abs(ver) < EYEY_THRESHOLD):
         ver = 0
-    return (np.sign(hor), np.sign(ver))
+    return (-int(np.sign(hor)), int(np.sign(ver)))
+
+# position
+def detect_position(face, gray_img):
+    x, y, face_w, face_h = face
+    h, w = gray_img.shape       
+    x = x + face_w/2 - w/ 2
+    y = y + face_h/2 - h /2
+    x = 2 * face_w * x/ (w*w)
+    y = 2 * face_h * y/ (h*h)
+    # for the postion bias    
+    if (np.abs(x) < POSX_THRESHOLD):
+        x = 0
+    if (np.abs(y) < POSY_THRESHOLD):
+        y = 0
+    return (-int(np.sign(x)), int(np.sign(y)))
+    # return np.round(face_w * x/ w, 3), np.round(face_h * y/ face_h, 3) 
+    
 
 # emotion
 def detect_emotion(classifier, face, gray_img, emotions):
@@ -99,5 +116,3 @@ def detect_gender(classifier, face, rgb_img, genders):
         'woman': (255,0,0)
     }[gender]
     return gender, genders, color, np.argmax(pred)
-
-

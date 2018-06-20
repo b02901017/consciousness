@@ -13,10 +13,10 @@ class App extends Component {
         super(props);
         this.state = {
             pointer: 0,
-            time: 500,
+            time: 1000,
             numOfRow: 16,
-            numOfCol: 16,
-            data: creatData(16, 16)
+            numOfCol: 24,
+            data: creatData(16, 24)
         };
     }
     componentWillMount() {
