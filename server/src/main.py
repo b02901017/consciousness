@@ -69,6 +69,23 @@ def main(face_dtr, shape_dtr, emotion_clf, gender_clf):
             except:
             # else:
                 print('model dead')
+<<<<<<< HEAD
+=======
+            print(counter)
+            try :
+               
+                # # subimit data to rpi
+                if(counter % SUBMIT_FREQ == 0) :
+                    data = encode(i, number, dis, hor, ver, g_idx, e_idx)
+                    print(data, counter)
+                    # post_data(data)
+                    i += 1
+                    i %= DATA_SIZE
+                    counter %= SUBMIT_FREQ
+            except:
+                print('streaming dead')
+
+>>>>>>> 50bdd1f4b46376223ab8566f3735741ba040a3f4
         bgr_img = cv2.cvtColor(rgb_img, cv2.COLOR_RGB2BGR)
         cv2.rectangle(bgr_img, (580,300),(620,340),(240,240,240),-1)
         cv2.rectangle(bgr_img, (20,300),(60,340),(240,240,240),-1)
