@@ -41,28 +41,31 @@ class App extends Component {
         this.state = {
             pointer: 0,
             beat : false,
-            time: 500,
+            time: 200,
             numOfRow: 4,
             numOfCol: 4,
-            data: creatData(6, 4)
+            data: creatData(6, 4),
+            isSend: false
         };
     }
     componentWillMount() {
         const {time, numOfRow, data} = this.state;
         this.triggerInterval =
             setInterval(() => {
-                this.sendData(data);
+                if (this.state.beat && this.state.isSend) {
+                    this.sendData(data);
+                }
                 this.setState({
-                    pointer: (this.state.pointer+1) % numOfRow,
+                    // pointer: (this.state.pointer+1) % numOfRow,
                     beat: !this.state.beat
                 })
         }, time);
         document.addEventListener("keydown", this._handleKeyDown.bind(this));
     }
     async sendData(data) {
+        data = [].concat.apply([], data);
         const url = `http://${IP}:${PORT}/${API}`
         data  = [].concat.apply([], data);
-        console.log(data)
         try {
             const res = await fetch(url, {
                 method: "POST",
@@ -94,9 +97,17 @@ class App extends Component {
         })
     }
     render() {
-        const {data, pointer, beat} = this.state;
+        const {data, pointer, beat, isSend} = this.state;
         return (
             <div className="container"> 
+                <div className = 'btn-row'>
+                    <div
+                        onClick = {()=>{
+                            this.sendData(creatData(6, 4))
+                            this.setState({isSend: !isSend})}}
+                        className = {`btn ${isSend ? 'Green': 'Light-Gray'}`}>
+                    </div>
+                </div>
                 <div className="pad Gray"> 
                     {
                         data.map((obj, i)=>
