@@ -2,6 +2,7 @@ import cv2
 import matplotlib.pyplot as plt
 import numpy as np
 from imutils import face_utils
+from imutils.object_detection import non_max_suppression
 from utils import *
 from constants import *
 import math
@@ -32,6 +33,14 @@ def process_eye(shape, gray_img, offsets, index):
 
 # def detect_faces(detection_model, gray_img):
 #     return detection_model.detectMultiScale(gray_img, 1.3, 5)
+
+# peoplr
+def detect_people(detector, bgr_img):
+	(rects, weights) = detector.detectMultiScale(
+        bgr_img, winStride=(8, 8), padding=(16, 16), scale=1.06)
+	rects = non_max_suppression(rects, probs=None, overlapThresh=0.65)
+	return rects
+
 
 # faces
 def detect_faces(detector, gray_img):

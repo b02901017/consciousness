@@ -10,30 +10,30 @@ const API = "api/rpi/data/"
 
 
 const key2idx = {
-    "q":0,
-    "w":1,
-    "e":2,
-    "r":3,
-    "a":8,
-    "s":9,
+    "1":0,
+    "q":1,
+    "a":2,
+    "z":3,
+    "2":4,
+    "w":5,
+    "s":6,
+    "x":7,
+    "3":8,
+    "e":9,
     "d":10,
-    "f":11,
-    "z":16,
-    "x":17,
-    "c":18,
-    "v":19,
-    "o":4,
-    "p":5,
-    "[":6,
-    "]":7,
-    "k":12,
-    "l":13,
-    ";":14,
-    "'":15,
-    "m":20,
-    ",":21,    
-    ".":22,    
-    "/":23,    
+    "c":11,
+    "4":12,
+    "r":13,
+    "f":14,
+    "v":15,
+    "5":16,
+    "t":17,
+    "g":18,
+    "b":19,
+    "6":20,
+    "y":21,    
+    "h":22,    
+    "n":23,    
 }
 class App extends Component {
     constructor(props) {
@@ -44,14 +44,14 @@ class App extends Component {
             time: 500,
             numOfRow: 4,
             numOfCol: 4,
-            data: creatData(8, 3)
+            data: creatData(6, 4)
         };
     }
     componentWillMount() {
         const {time, numOfRow, data} = this.state;
         this.triggerInterval =
             setInterval(() => {
-                this.sendData(data[this.state.pointer]);
+                this.sendData(data);
                 this.setState({
                     pointer: (this.state.pointer+1) % numOfRow,
                     beat: !this.state.beat
@@ -61,6 +61,8 @@ class App extends Component {
     }
     async sendData(data) {
         const url = `http://${IP}:${PORT}/${API}`
+        data  = [].concat.apply([], data);
+        console.log(data)
         try {
             const res = await fetch(url, {
                 method: "POST",
@@ -83,10 +85,10 @@ class App extends Component {
         const idx = key2idx[key];
         if (idx === undefined) 
             return;
-        let i = idx % 8;
-        let j = parseInt(idx / 8);
+        let i = idx % 4;
+        let j = parseInt(idx / 4);
         let _data = [...data]; 
-        _data[i][j] =  _data[i][j] ? 0 :1;
+        _data[j][i] =  _data[j][i] ? 0 :1;
         this.setState({
             data: _data
         })

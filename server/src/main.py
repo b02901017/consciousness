@@ -9,9 +9,11 @@ from draw import *
 from utils import *
 from message import *
 from time import sleep
+import imutils
 
 
-def main(face_dtr, shape_dtr, emotion_clf, gender_clf):
+
+def main(ppl_dtr, face_dtr, shape_dtr, emotion_clf, gender_clf):
     # starting video streaming
     cap = cv2.VideoCapture(0)
     cv2.namedWindow('window_frame')
@@ -22,6 +24,7 @@ def main(face_dtr, shape_dtr, emotion_clf, gender_clf):
     while True:
         try :
             ret, bgr_img = cap.read()
+            bgr_img = imutils.resize(bgr_img, width= 640)
             gray_img = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2GRAY)
             rgb_img = cv2.cvtColor(bgr_img, cv2.COLOR_BGR2RGB)
             faces = detect_faces(face_dtr, gray_img)
@@ -32,6 +35,9 @@ def main(face_dtr, shape_dtr, emotion_clf, gender_clf):
         draw_text([20,100], rgb_img, str(number), (0,255,0), 0, -45, 1, 1)
         for face in faces:
             try :
+                #people 
+                ppls = detect_people(ppl_dtr, bgr_img)
+                print(ppls)
                 # eye sight
                 hor, ver = detect_eyesight(shape_dtr, face, gray_img)
                 # trnsform
@@ -49,7 +55,6 @@ def main(face_dtr, shape_dtr, emotion_clf, gender_clf):
                 draw_bounding_box(face, rgb_img, color)
             except:
                 print('model dead')
-            print(counter)
             try :
                
                 # # subimit data to rpi
@@ -74,9 +79,11 @@ if __name__ == "__main__":
     ## cascad
     # face_dtr = cv2.Cascadeclf(detection_model_path)
     ## dlib
+    ppl_dtr = cv2.HOGDescriptor()
+    ppl_dtr.setSVMDetector(cv2.HOGDescriptor_getDefaultPeopleDetector())
     face_dtr = dlib.get_frontal_face_detector()
     shape_dtr = dlib.shape_predictor(shape_model_path)
     emotion_clf = load_model(emotion_model_path, compile=False)
     gender_clf = load_model(gender_model_path, compile=False)
 
-    main(face_dtr, shape_dtr, emotion_clf, gender_clf)
+    main(ppl_dtr, face_dtr, shape_dtr, emotion_clf, gender_clf)

@@ -12,7 +12,7 @@ PORT = 3000
 
 app = Flask(__name__)
 
-data = Array('i', [0]*16)
+data = Array('i', [0]*24)
 flag = Value('i', 0)
 
 @app.route('/api/rpi/data/', methods=['POST'])
